@@ -1,6 +1,6 @@
 import { useState } from "react";
-export default function Player({ symbol, initialName }) {
-  const [playerName, setPlayerName] =useState(initialName)
+export default function Player({ symbol, initialName, isActive }) {
+  const [playerName, setPlayerName] = useState(initialName);
   const [isEditing, setIsEditing] = useState(false);
 
   function handleEditBtn() {
@@ -13,13 +13,13 @@ export default function Player({ symbol, initialName }) {
   }
   function handleInputElement(event) {
     event.preventDefault();
-    setPlayerName(event.target.value)
+    setPlayerName(event.target.value);
   }
 
   return (
-    <li className="player">
+    <li className={isActive ? "active" : undefined}>
       {!isEditing ? (
-        <span className="player-name">{playerName}</span>
+        <span className="player">{playerName}</span>
       ) : (
         <input
           type="text"
