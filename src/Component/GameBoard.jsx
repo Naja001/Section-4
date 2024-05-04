@@ -1,24 +1,13 @@
 import { useState } from "react";
 
-const initialGameBoard = [
-  [null, null, null],
-  [null, null, null],
-  [null, null, null],
-];
-export default function GameBoard({ onClickedSquare, turns }) {
-  const gameBoard = initialGameBoard;
 
-  for (const turn of turns) {
-    const { square, player } = turn;
-    const { row, col } = square;
-
-    gameBoard[row][col] = player;
-  }
+export default function GameBoard({ onClickedSquare, board }) {
+  
  
   return (
     <div>
       <ol id="game-board">
-        {gameBoard.map((row, rowIndex) => (
+        {board.map((row, rowIndex) => (
           <li key={rowIndex}>
             <ol>
               {row.map((playerSymbol, colIndex) => (
