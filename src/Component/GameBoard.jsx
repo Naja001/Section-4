@@ -5,28 +5,26 @@ const initialGameBoard = [
   [null, null, null],
   [null, null, null],
 ];
-export default function GameBoard({ onClickedSquare, activePlayerSymbol }) {
-  const [gameBoard, setGameBoard] = useState(initialGameBoard);
+export default function GameBoard({ onClickedSquare, turns }) {
+  const gameBoard = initialGameBoard;
 
-  //   function handleGameBtn(rowIndex, colIndex) {
-  //     setGameBoard((prevGameBoard) => {
-  //       const updatedBoard = [
-  //         ...prevGameBoard.map((innerArray) => [...innerArray]),
-  //       ];
-  //       updatedBoard[rowIndex][colIndex] = "X";
-  //       return updatedBoard;
-  //     });
-  //   }
+  for (const turn of turns) {
+    const { square, player } = turn;
+    const { row, col } = square;
 
-  function handleGameBtn(rowIndex, colIndex) {
-    setGameBoard((prevState) => {
-      const updatedBoard = [...prevState.map((item) => [...item])];
-      updatedBoard[rowIndex][colIndex] = activePlayerSymbol;
-      return updatedBoard;
-    });
-    //every time when some btn is clicked this function will execute(in app.jsx) and change player
-    onClickedSquare();
+    gameBoard[row][col] = player;
   }
+  //const [gameBoard, setGameBoard] = useState(initialGameBoard);
+
+  // function handleGameBtn(rowIndex, colIndex) {
+  //   setGameBoard((prevState) => {
+  //     const updatedBoard = [...prevState.map((item) => [...item])];
+  //     updatedBoard[rowIndex][colIndex] = activePlayerSymbol;
+  //     return updatedBoard;
+  //   });
+  //   //every time when some btn is clicked this function will execute(in app.jsx) and change player
+  //   onClickedSquare();
+
   return (
     <div>
       <ol id="game-board">
@@ -35,9 +33,7 @@ export default function GameBoard({ onClickedSquare, activePlayerSymbol }) {
             <ol>
               {row.map((playerSymbol, colIndex) => (
                 <li key={colIndex}>
-                  <button onClick={() => handleGameBtn(rowIndex, colIndex)}>
-                    {playerSymbol}
-                  </button>
+                  <button onClick={()=>onClickedSquare(rowIndex, colIndex)}>{playerSymbol}</button>
                 </li>
               ))}
             </ol>
