@@ -14,17 +14,7 @@ export default function GameBoard({ onClickedSquare, turns }) {
 
     gameBoard[row][col] = player;
   }
-  //const [gameBoard, setGameBoard] = useState(initialGameBoard);
-
-  // function handleGameBtn(rowIndex, colIndex) {
-  //   setGameBoard((prevState) => {
-  //     const updatedBoard = [...prevState.map((item) => [...item])];
-  //     updatedBoard[rowIndex][colIndex] = activePlayerSymbol;
-  //     return updatedBoard;
-  //   });
-  //   //every time when some btn is clicked this function will execute(in app.jsx) and change player
-  //   onClickedSquare();
-
+ 
   return (
     <div>
       <ol id="game-board">
@@ -33,7 +23,7 @@ export default function GameBoard({ onClickedSquare, turns }) {
             <ol>
               {row.map((playerSymbol, colIndex) => (
                 <li key={colIndex}>
-                  <button onClick={()=>onClickedSquare(rowIndex, colIndex)}>{playerSymbol}</button>
+                  <button onClick={()=>onClickedSquare(rowIndex, colIndex)} disabled={playerSymbol !== null}>{playerSymbol}</button>
                 </li>
               ))}
             </ol>
