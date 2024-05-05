@@ -1,5 +1,5 @@
 import { useState } from "react";
-export default function Player({ symbol, initialName, isActive }) {
+export default function Player({ symbol, initialName, isActive, onChangeName }) {
   const [playerName, setPlayerName] = useState(initialName);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -9,7 +9,9 @@ export default function Player({ symbol, initialName, isActive }) {
     //setIsEditing(isEditing ? false : true);
     // when you doing trought function its instantly
     setIsEditing((edited) => !edited);
-    console.log(isEditing);
+   if(isEditing){
+    onChangeName(symbol, playerName)
+   }
   }
   function handleInputElement(event) {
     event.preventDefault();

@@ -3,6 +3,7 @@ import Player from "./Component/Player";
 import { useState } from "react";
 import Log from "./Component/Log";
 import { WINNING_COMBINATIONS } from "./winning-combination.js";
+import GameOver from "./Component/GameOver.jsx";
 
 const initialGameBoard = [
   [null, null, null],
@@ -19,11 +20,15 @@ function deriveActivePlayer(gameTurns) {
   return currentPlayer;
 }
 function App() {
+  const [players, setPlayers] = useState({
+    X: "Player 1",
+    O: "Player 2",
+  });
   const [gameTurns, setGameTurns] = useState([]);
 
   const activePlayer = deriveActivePlayer(gameTurns);
 
-  const gameBoard = initialGameBoard;
+  const gameBoard = [...initialGameBoard.map((array) => [...array])];
 
   for (const turn of gameTurns) {
     const { square, player } = turn;
@@ -39,15 +44,16 @@ function App() {
       gameBoard[combination[1].row][combination[1].column];
     const thirdSquareSymbol =
       gameBoard[combination[2].row][combination[2].column];
-      
+
     if (
       firstSquareSymbol &&
       firstSquareSymbol === secondSquareSymbol &&
       firstSquareSymbol === thirdSquareSymbol
     ) {
-      winner = firstSquareSymbol;
+      winner = players[firstSquareSymbol];
     }
   }
+  let draw = gameTurns.length === 9;
 
   function handleClickedBtn(rowIndex, colIndex) {
     setGameTurns((prevTurns) => {
@@ -60,6 +66,16 @@ function App() {
       return updatedTurns;
     });
   }
+  function handleRestart() {
+    setGameTurns([]);
+  }
+
+  function handlePlayerNameChange(symbol, newName) {
+    return {
+      ...prevPlayers,
+      [symbol]: newName,
+    };
+  }
   return (
     <main>
       <div id="game-container">
@@ -68,14 +84,18 @@ function App() {
             initialName="Player 1"
             symbol="X"
             isActive={activePlayer === "X"}
+            onChangeName={handlePlayerNameChange}
           ></Player>
           <Player
             initialName="Player 2"
             symbol="O"
             isActive={activePlayer === "O"}
+            onChangeName={handlePlayerNameChange}
           ></Player>
         </ol>
-        {winner && <p>You won, {winner} player!</p>}
+        {(winner || draw) && (
+          <GameOver winner={winner} onRestart={handleRestart} />
+        )}
         <GameBoard
           onClickedSquare={handleClickedBtn}
           board={gameBoard}
